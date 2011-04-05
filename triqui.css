@@ -1,0 +1,12 @@
+#players li{
+    cursor:pointer;
+}
+#triqui table, th, td{
+    border: 1px solid black;
+}
+#triqui th, td{
+    cursor:pointer;
+    border: 1px solid black;
+    width:  25px;
+    height: 25px;
+}

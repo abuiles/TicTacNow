@@ -3,7 +3,7 @@
   just call the test function to see if everything is
   working, then we inform the server of our name.
  */
-now.ready(function(){        
+now.ready(function(){
     now.getServerInfo(function(res){
 	console.log(res);
     });
@@ -15,6 +15,7 @@ now.turn = false;
 now.playing = false;
 now.name = prompt("Ingresa tu nombre");
 now.oppontent = null;
+now.mark = null;
 
 /*
   Function that creates an empty triqui table.
@@ -23,9 +24,9 @@ makeTable = function(name){
     html = "<h2>Triqui</h2>";
     html += "<h3>Oponente: " + name + "</h3>";
     html += "<table id=triquiTable>";
-    html += "<tr><td></td><td></td><td></td></tr>";
-    html += "<tr><td></td><td></td><td></td></tr>";
-    html += "<tr><td></td><td></td><td></td></tr>";
+    html += "<tr><td id = '1'></td><td id = '2'></td><td id = '3'></td></tr>";
+    html += "<tr><td id = '4'></td><td id = '5'></td><td id = '6'></td></tr>";
+    html += "<tr><td id = '7'></td><td id = '8'></td><td id = '9'></td></tr>";
     html += "</table>";
     $("#triqui").html(html);
 }
@@ -57,16 +58,18 @@ now.startPlayClient = function(player){
     now.opponent = player.user.clientId;
     now.turn = true;
     now.playing = true;
+    now.mark = 'X';
     console.log("Playing against " + player.now.name);
     makeTable(player.now.name);
-    
+
 }
 /*
   Function called when someone makes a move
   against you.
  */
-now.playClient = function(opponent){
-    console.log(opponent.now.name + " made a move");
+now.playClient = function(opponent, moveId){
+    console.log(opponent.now.name + " made a move " + " in " + moveId);
+    $("#" + moveId).html(opponent.now.mark);
     now.turn = true;
 }
 
@@ -75,6 +78,7 @@ now.playClient = function(opponent){
  */
 $(".player").live("click", function(){
     now.opponent = this.id;
+    now.mark = 'O';
     name = $(this).text();
     console.log("Start playing with " + name);
     makeTable(name);
@@ -86,8 +90,12 @@ $(".player").live("click", function(){
  */
 $("#triqui td").live("click", function(){
     if(now.turn){
-	now.turn = false;
-	now.playServer(now.opponent);
+      var selector = "#" + this.id;
+      if( $(selector).html().length == 0 ){
+        $(selector).html(now.mark);
+        now.turn = false;
+        now.playServer(now.opponent, this.id);
+      }
     }
     else{
 	alert("No es tu turno");

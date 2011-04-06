@@ -13,7 +13,7 @@ var server = require('http').createServer(function(req, response){
 	file = __dirname + "/triqui.css";
 	type = "text/css";
     }
-    
+
     fs.readFile(file, function(err, data){
 	response.writeHead(200, {'Content-Type':type});
 	response.write(data);
@@ -75,16 +75,15 @@ everyone.now.startPlay = function(id){
     player = findPlayer(id);
     console.log(this.now.name + " playing against " + player.now.name);
     player.now.startPlayClient(this);
-
 }
 
 /*
   Function called when the client makes a play.
  */
-everyone.now.playServer = function(id){
+everyone.now.playServer = function(id, moveId){
     opponent = findPlayer(id);
-    console.log(this.now.name + " made a move against " + opponent.now.name);
-    opponent.now.playClient(this);
+    console.log(this.now.name + " made a move against " + opponent.now.name + " in " + moveId );
+    opponent.now.playClient(this, moveId);
 }
 
 /*

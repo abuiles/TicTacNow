@@ -3,6 +3,11 @@
   just call the test function to see if everything is
   working, then we inform the server of our name.
  */
+
+var FINISHED     = 1;
+var NOT_FINISHED = 0;
+var TIE          = 2;
+
 now.ready(function(){
     now.getServerInfo(function(res){
 	console.log(res);
@@ -23,7 +28,7 @@ now.mark = null;
 makeTable = function(name){
     html = "<h2>Triqui</h2>";
     html += "<h3>Oponente: " + name + "</h3>";
-    html += "<table id=triquiTable>";
+    html += "<table id='triquiTable'>";
     html += "<tr><td id = '1'></td><td id = '2'></td><td id = '3'></td></tr>";
     html += "<tr><td id = '4'></td><td id = '5'></td><td id = '6'></td></tr>";
     html += "<tr><td id = '7'></td><td id = '8'></td><td id = '9'></td></tr>";
@@ -88,6 +93,39 @@ now.beginGame = function(playerId, canPlay){
 }
 // var plus2 = (function (a) { return function (b) {return a + b;} }) ( 2 )
 
+var FINISHED_POSITIONS = [ [1, 2, 3],
+                           [4, 5, 6],
+                           [7, 8, 9],
+                           [1, 4, 7],
+                           [2, 5, 8],
+                           [3, 6, 9],
+                           [1, 5, 9],
+                           [3, 5, 7] ]
+
+function checkBoard(){
+
+  var getMark = function (position){
+    var selector = "#" + position;
+    return $(selector).html();
+  }
+
+  for ( i in FINISHED_POSITIONS ){
+    var pos = FINISHED_POSITIONS[i];
+    if( getMark(pos[2]).length > 0 && getMark(pos[0]) == getMark(pos[1]) &&  getMark(pos[1]) == getMark(pos[2]) ){
+      return FINISHED;
+    }
+  }
+  for ( i in FINISHED_POSITIONS ){
+    var pos = FINISHED_POSITIONS[i];
+    for( j in pos ){
+      if (getMark( pos[j] ).length == 0){
+        return NOT_FINISHED;
+      }
+    }
+  }
+  return TIE;
+}
+
 
 
 /*
@@ -106,7 +144,13 @@ $("#triqui td").live("click", function(){
       if( $(selector).html().length == 0 ){
         $(selector).html(now.mark);
         now.turn = false;
+        gameStatus = checkBoard(this.id);
         now.playServer(now.opponent, this.id);
+        if( gameStatus == FINISHED ){
+          now.finishedGame(now.opponent);
+        }else if ( gameStatus == TIE ){
+          now.tieGame(now.opponent, this.id);
+        }
       }
     }
     else{

@@ -77,19 +77,29 @@ everyone.now.startPlay = function(id){
     player.now.startPlayClient(this);
 }
 
+everyone.now.canPlay = function(id, callback){
+  player = findPlayer(id);
+  console.log(player.now.name + " is playing: " + player.now.playing );
+  if (player.now.playing){
+    callback(id, false);
+  }else{
+    callback(id, true);
+  }
+}
+
 /*
   Function called when the client makes a play.
  */
 everyone.now.playServer = function(id, moveId){
-    opponent = findPlayer(id);
-    console.log(this.now.name + " made a move against " + opponent.now.name + " in " + moveId );
-    opponent.now.playClient(this, moveId);
+  opponent = findPlayer(id);
+  console.log(this.now.name + " made a move against " + opponent.now.name + " in " + moveId );
+  opponent.now.playClient(this, moveId);
 }
 
 /*
   Test function
  */
 everyone.now.getServerInfo = function(callback){
-    callback("Some info here");
+  callback("Some info here");
 }
 

@@ -73,16 +73,28 @@ now.playClient = function(opponent, moveId){
     now.turn = true;
 }
 
+now.beginGame = function(playerId, canPlay){
+  name = $("#" + playerId).text();
+  if(canPlay){
+    now.opponent = playerId;
+    now.mark = 'O';
+    now.playing = true;
+    console.log("Start playing with " + name);
+    makeTable(name);
+    now.startPlay(playerId);
+  }else{
+    alert(name + ' está en medio de otro juego');
+  }
+}
+// var plus2 = (function (a) { return function (b) {return a + b;} }) ( 2 )
+
+
+
 /*
   Function called when a player name is clicked
  */
 $(".player").live("click", function(){
-    now.opponent = this.id;
-    now.mark = 'O';
-    name = $(this).text();
-    console.log("Start playing with " + name);
-    makeTable(name);
-    now.startPlay(this.id);
+  now.canPlay(this.id, now.beginGame);
 });
 
 /*

@@ -19,7 +19,7 @@ now.ready(function(){
 now.turn = false;
 now.playing = false;
 now.name = prompt("Ingresa tu nombre");
-now.oppontent = null;
+now.opponent = null;
 now.mark = null;
 
 /*
@@ -93,14 +93,16 @@ now.beginGame = function(playerId, canPlay){
 }
 
 now.notifyTie = function(opponent){
-  $("#triqui td").unbind('click');
+  // $("#triqui td").die();
   $('#notification').html('<h1>Es un empate! Haga click aquí para terminar</h1>');
   $('#notification').click(function(){
     $('#notification').html('');
-    $('#notification').unbind('click');
-    now.opponent = null;
-    now.mark = null;
+    now.opponent = -1;
+    now.mark = -1;
     now.playing = false;
+    now.turn = false;
+    $("#triqui").html('No estás jugando todavía');
+    // $("#triqui td").die();
   });
 }
 // var plus2 = (function (a) { return function (b) {return a + b;} }) ( 2 )

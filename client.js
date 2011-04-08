@@ -92,9 +92,12 @@ now.beginGame = function(playerId, canPlay){
   }
 }
 
-now.notifyTie = function(opponent){
-  // $("#triqui td").die();
-  $('#notification').html('<h1>Es un empate! Haga click aquí para terminar</h1>');
+/*
+  Notify about the outcome of the game, and clears the data
+ */
+notify = function(data){
+// $("#triqui td").die();
+  $('#notification').html('<h1>'+ data + ' Haga click aquí para terminar</h1>');
   $('#notification').click(function(){
     $('#notification').html('');
     now.opponent = -1;
@@ -105,6 +108,26 @@ now.notifyTie = function(opponent){
     // $("#triqui td").die();
   });
 }
+
+/*
+  Tell the client there is a tie
+ */
+now.notifyTie = function(){
+    notify("Es un empate!");
+}
+/*
+  Tell the client that he lost
+ */
+now.notifyLost = function(){
+    notify("Has perdido!");
+}
+/*
+  Tell the client that he won
+ */
+now.notifyWin = function(){
+    notify("Has ganado!");
+}
+
 // var plus2 = (function (a) { return function (b) {return a + b;} }) ( 2 )
 
 var FINISHED_POSITIONS = [ [1, 2, 3],

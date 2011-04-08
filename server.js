@@ -79,18 +79,33 @@ everyone.now.startPlay = function(id){
 everyone.now.canPlay = function(id, callback){
   player = findPlayer(id);
   console.log(player.now.name + " is playing: " + player.now.playing );
-  if (player.now.playing){
+  if (player.now.playing || this.now.playing){
     callback(id, false);
   }else{
     callback(id, true);
   }
 }
 
+/*
+  Notify the clients that the game was a tie
+ */
 everyone.now.tieGame = function (id){
   opponent = findPlayer(id);
-  this.now.notifyTie(opponent);
-  opponent.now.notifyTie(opponent);
+  console.log(this.now.name + " y " + opponent.now.name + " han empatado" );
+  this.now.notifyTie();
+  opponent.now.notifyTie();
 }
+
+/*
+  Notify the clients opponent lost and current client won.
+ */
+everyone.now.finishedGame = function (id){
+  opponent = findPlayer(id);
+  console.log(this.now.name + " le ha ganado a " + opponent.now.name);
+  this.now.notifyWin();
+  opponent.now.notifyLost();
+}
+
 /*
   Function called when the client makes a play.
  */

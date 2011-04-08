@@ -91,6 +91,18 @@ now.beginGame = function(playerId, canPlay){
     alert(name + ' está en medio de otro juego');
   }
 }
+
+now.notifyTie = function(opponent){
+  $("#triqui td").unbind('click');
+  $('#notification').html('<h1>Es un empate! Haga click aquí para terminar</h1>');
+  $('#notification').click(function(){
+    $('#notification').html('');
+    $('#notification').unbind('click');
+    now.opponent = null;
+    now.mark = null;
+    now.playing = false;
+  });
+}
 // var plus2 = (function (a) { return function (b) {return a + b;} }) ( 2 )
 
 var FINISHED_POSITIONS = [ [1, 2, 3],
@@ -126,8 +138,6 @@ function checkBoard(){
   return TIE;
 }
 
-
-
 /*
   Function called when a player name is clicked
  */
@@ -149,7 +159,7 @@ $("#triqui td").live("click", function(){
         if( gameStatus == FINISHED ){
           now.finishedGame(now.opponent);
         }else if ( gameStatus == TIE ){
-          now.tieGame(now.opponent, this.id);
+          now.tieGame(now.opponent);
         }
       }
     }

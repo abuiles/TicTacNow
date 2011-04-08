@@ -1,5 +1,4 @@
 ﻿
-
 var fs = require('fs');
 
 /*
@@ -87,6 +86,11 @@ everyone.now.canPlay = function(id, callback){
   }
 }
 
+everyone.now.tieGame = function (id){
+  opponent = findPlayer(id);
+  this.now.notifyTie(opponent);
+  opponent.now.notifyTie(opponent);
+}
 /*
   Function called when the client makes a play.
  */

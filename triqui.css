@@ -23,5 +23,11 @@
 }
 
 #footer{
-    margin-top:250px;;
+    margin-top:20px;;
+    position: relative;
+    overflow:auto;
+}
+
+#chat{
+    margin-top:100px;;
 }

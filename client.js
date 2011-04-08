@@ -196,9 +196,18 @@ $("#triqui td").live("click", function(){
 
 //Chat code
 now.receiveMessage = function(name, message){
-  $("#messages").prepend("<br>"+name+": "+message);
+  object = $("#messages");
+  object.append("<br>"+name+": "+message);
+    object.scrollTop(object[0].scrollHeight);
 }
 $("#send-button").live("click",function(){
   now.distributeMessage($("#text-input").val());
-  $("#text-input").val("");    
+  $("#text-input").val("");
 });
+$(window).keypress(function(e){
+    if(e.keyCode == 13){
+	now.distributeMessage($("#text-input").val());
+	$("#text-input").val("");
+    }
+});
+

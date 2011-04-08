@@ -192,3 +192,13 @@ $("#triqui td").live("click", function(){
 	alert("No es tu turno");
     }
 });
+
+
+//Chat code
+now.receiveMessage = function(name, message){
+  $("#messages").prepend("<br>"+name+": "+message);
+}
+$("#send-button").live("click",function(){
+  now.distributeMessage($("#text-input").val());
+  $("#text-input").val("");    
+});

@@ -10,3 +10,14 @@
     width:  25px;
     height: 25px;
 }
+#notfication{
+    cursor:pointer;
+}
+#messages{
+    left:100px;
+    top:100px;
+    width:400px;
+    height:100px;
+    background-color:ffffff;
+    overflow:auto;
+}

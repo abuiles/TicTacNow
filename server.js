@@ -122,3 +122,9 @@ everyone.now.getServerInfo = function(callback){
   callback("Some info here");
 }
 
+
+//Chat code
+everyone.now.distributeMessage = function(message){
+  // this.now refers to the `now` of the caller's scope
+  everyone.now.receiveMessage(this.now.name, message);
+};
